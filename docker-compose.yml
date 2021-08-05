@@ -1,0 +1,11 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./build/web/Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/company-official-app-frontend:cached
+      - ./node_modules:/company-official-app-frontend/node_modules:delegated
