@@ -3,7 +3,7 @@
 memo
 
 ```
-$ docker-compose run --rm web yarn create next-app
+$ yarn create next-app
 ```
 
 ```
