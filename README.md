@@ -1,11 +1,19 @@
 # Company-Official-App-Frontend
 
-memo
+## アプリ起動方法
 
+初回およびモジュールを更新したい時
 ```
-$ yarn create next-app
+$ make up-build
 ```
 
+2回目以降
 ```
-$ docker-compose run --rm web yarn add next react react-dom
+$ make up
+```
+
+## 補足
+アプリを作った方法
+```
+$ docker-compose run --rm web yarn create next-app --ts
 ```

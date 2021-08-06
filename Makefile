@@ -1,11 +1,13 @@
-.PHONY: build
-build:
+.PHONY: up-build
+up-build:
 	docker compose build
-
-.PHONY: install-deps
-install-deps:
 	docker-compose run --rm web yarn install
+	docker-compose up -d
 
 .PHONY: up
 up:
 	docker-compose up -d
+
+.PHONY: log-web
+log-web:
+	docker logs -t company-official-app-frontend_web_1
