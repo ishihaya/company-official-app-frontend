@@ -11,3 +11,8 @@ up:
 .PHONY: log-web
 log-web:
 	docker logs -t company-official-app-frontend_web_1
+
+.PHONY: install-husky
+install-husky:
+	yarn husky install
+	yarn husky add .husky/pre-commit "yarn lint"

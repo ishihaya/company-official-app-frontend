@@ -1,0 +1,41 @@
+name: Check CI
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  check-ci:
+    name: Check CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-v14-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: ${{ runner.os }}-node-v14-deps-
+      - name: Install Dependencies
+        run: yarn install
+      - name: Check build
+        id: build
+        run: yarn build
+        continue-on-error: true
+      - name: Comment lint
+        uses: reviewdog/action-eslint@v1
+        with:
+          reporter: github-pr-review
+          eslint_flags: './**/*.{js,jsx,ts,tsx,json,css}'
+      - name: Check lint
+        id: lint
+        run: yarn lint
+        continue-on-error: true
+      - name: Check test
+        id: test
+        run: yarn test
+        continue-on-error: true
+      - name: Judge
+        if: steps.build.outcome != 'success' || steps.lint.outcome != 'success' || steps.test.outcome != 'success'
+        run: exit 1
