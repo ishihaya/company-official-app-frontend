@@ -2,10 +2,6 @@ module.exports = {
   reactStrictMode: true,
   eslint: {
     // lintの対象となるディレクトリ
-    dirs: [
-      'pages/',
-      'components/',
-      'lib/',
-    ]
-  }
+    dirs: ['pages/', 'components/', 'lib/'],
+  },
 }
