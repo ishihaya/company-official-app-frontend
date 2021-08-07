@@ -1,0 +1,60 @@
+name: Deploy dev
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GCP_SA_FIREBASE_HOSTING_KEY: ${{ secrets.GCP_SA_FIREBASE_HOSTING_KEY }}
+  EXAMPLE_ENV: dev
+  EXAMPLE_SECRET: ${{ secrets.EXAMPLE_SECRET }}
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create environment
+        run: |
+          rm .env
+          echo NEXT_PUBLIC_EXAMPLE_ENV=${{ env.EXAMPLE_ENV }} >> .env
+          echo EXAMPLE_SECRET=${{ env.EXAMPLE_SECRET }} >> .env.local
+      - name: Install Dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: dev
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
+          service_account_key: ${{ env.GCP_SA_FIREBASE_HOSTING_KEY }}
+          export_default_credentials: true
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install firebase-tools
+        run: |
+          yarn global add firebase-tools
+          echo "$(yarn global bin)" >> $GITHUB_PATH
+      - name: Deploy to Firebase
+        run: firebase deploy --only hosting --project ${{ env.GCP_PROJECT_ID }}

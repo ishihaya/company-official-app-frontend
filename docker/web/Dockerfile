@@ -1,6 +1,6 @@
 FROM node:14.17-alpine
 WORKDIR /company-official-app-frontend
 
-RUN yarn install
+COPY . .
 
 EXPOSE 3000
