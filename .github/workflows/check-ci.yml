@@ -27,7 +27,7 @@ jobs:
         uses: reviewdog/action-eslint@v1
         with:
           reporter: github-pr-review
-          eslint_flags: './**/*.{js,jsx,ts,tsx,json,css}'
+          eslint_flags: './**/*.{js,jsx,ts,tsx}'
       - name: Check lint
         id: lint
         run: yarn lint
