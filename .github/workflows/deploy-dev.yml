@@ -21,6 +21,12 @@ jobs:
           rm .env
           echo NEXT_PUBLIC_EXAMPLE_ENV=${{ env.EXAMPLE_ENV }} >> .env
           echo EXAMPLE_SECRET=${{ env.EXAMPLE_SECRET }} >> .env.local
+      - name: Cache node_modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-v14-deps-${{ hashFiles(format('{0}{1}', github.workspace, '/yarn.lock')) }}
+          restore-keys: ${{ runner.os }}-node-v14-deps-
       - name: Install Dependencies
         run: yarn install
       - name: Build
