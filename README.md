@@ -68,3 +68,5 @@ makefileはdockerや複数行にわたる複雑なタスクを書いておく
 
 prettierでformatを実行(他のformatと競合しないようにしている)してnext lintでlintのチェックをする
 理由はprettierにはデフォルトのスタイル（整形ルール）が存在するから使いやすいとかなんとか
+
+deployにはVercelを使用
