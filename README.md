@@ -70,3 +70,13 @@ prettierでformatを実行(他のformatと競合しないようにしている)�
 理由はprettierにはデフォルトのスタイル（整形ルール）が存在するから使いやすいとかなんとか
 
 deployにはVercelを使用
+Vercelには環境がproductionとdevelopment(previewもあるが環境変数はproductionのものが使われる)があるが、柔軟に対応する場合（環境を3つ作りたいなど）
+は各環境ごとでプロジェクトを作成して-devなどで同じGitリポジトリに接続して各種設定を対応
+現在はdevのみのためmainブランチにdeployした段階でdevのproductionへのdeployが走るようになる、また全てのpushに対してpreviewがデプロイされる
+
+デプロイのCDが不要なので便利
+
+他の対応としては、AWS Amplifyとかでもいいらしい(ISRなどの機能が失われず)。Firebase Hostingでも可能だが、デプロイのしやすさと相性の良さ、ISRなど
+の機能が失われる点を見るとVercelを選んでおけばよさそう
+
+料金面は未検討、少なくとも個人開発ではほぼ無料
