@@ -76,6 +76,8 @@ Vercelには環境がproductionとdevelopment(previewもあるが環境変数は
 
 デプロイのCDが不要なので便利
 
+VercelのGUIを操作するだけであとはGitと連携してデプロイが可能
+
 他の対応としては、AWS Amplifyとかでもいいらしい(ISRなどの機能が失われず)。Firebase Hostingでも可能だが、デプロイのしやすさと相性の良さ、ISRなど
 の機能が失われる点を見るとVercelを選んでおけばよさそう
 
